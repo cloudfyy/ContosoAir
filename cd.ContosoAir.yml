@@ -4,7 +4,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- master
+- none
 
 pool:
   vmImage: ubuntu-latest
@@ -12,13 +12,40 @@ pool:
 resources:
   pipelines:
     - pipeline: buildContosoAir
-      source: 
+      source: cloudfyy.ContosoAir
+      trigger:
+        branches:
+          include:
+            - master
 
 steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+- task: DownloadPipelineArtifact@2
+  inputs:
+    buildType: 'specific'
+    project: '4fb77d9a-1df0-463c-b889-636f6f46fcf5'
+    definition: '6'
+    buildVersionToDownload: 'latest'
+    targetPath: '$(Pipeline.Workspace)'
+
+- task: AzureResourceManagerTemplateDeployment@3
+  inputs:
+    deploymentScope: 'Resource Group'
+    azureResourceManagerConnection: 'ME-MngEnv318848-robertdu(595c5281-dd90-4ddf-9a98-e874a28529d0)'
+    subscriptionId: '595c5281-dd90-4ddf-9a98-e874a28529d0'
+    action: 'Create Or Update Resource Group'
+    resourceGroupName: '$(resourcegroup)'
+    location: 'ea'
+    templateLocation: 'URL of the file'
+    csmFileLink: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.json'
+    csmParametersFileLink: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.parameters.json'
+    overrideParameters: '-p_environment $(web_environment) -p_site_prefix $(web_prefix) -p_site_web_name $(web_site)'
+    deploymentMode: 'Incremental'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'ME-MngEnv318848-robertdu(595c5281-dd90-4ddf-9a98-e874a28529d0)'
+    appType: 'webApp'
+    WebAppName: '$(web_prefix)-$(web_site)-$(web_environment)'
+    packageForLinux: '$(Pipeline.Workspace)/**/*.zip'
