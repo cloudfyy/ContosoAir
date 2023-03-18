@@ -35,7 +35,7 @@ steps:
     subscriptionId: '595c5281-dd90-4ddf-9a98-e874a28529d0'
     action: 'Create Or Update Resource Group'
     resourceGroupName: '$(resourcegroup)'
-    location: 'ea'
+    location: 'eastasia'
     templateLocation: 'URL of the file'
     csmFileLink: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.json'
     csmParametersFileLink: '$(Pipeline.Workspace)/drop/Templates/azuredeploy.parameters.json'
