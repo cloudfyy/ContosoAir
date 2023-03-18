@@ -1,5 +1,4 @@
-# This project is retired, archived, and no longer supported. You are welcome to continue to use and fork the repository.
-
+[![Build Status](https://dev.azure.com/qiqidev1/ContosoAir/_apis/build/status/cloudfyy.ContosoAir?branchName=master)](https://dev.azure.com/qiqidev1/ContosoAir/_build/latest?definitionId=6&branchName=master)
 
 # Microsoft.Github CI Demo
 
