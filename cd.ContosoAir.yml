@@ -36,9 +36,9 @@ steps:
     action: 'Create Or Update Resource Group'
     resourceGroupName: '$(resourcegroup)'
     location: 'eastasia'
-    templateLocation: 'URL of the file'
-    csmFileLink: '$(Pipeline.Workspace)/drop/deployment/azuredeploy.json'
-    csmParametersFileLink: '$(Pipeline.Workspace)/drop/deployment/azuredeploy.parameters.json'
+    templateLocation: 'Linked artifact'
+    csmFile: '$(Pipeline.Workspace)/drop/deployment/azuredeploy.json'
+    csmParametersFile: '$(Pipeline.Workspace)/drop/deployment/azuredeploy.parameters.json'
     overrideParameters: '-p_environment $(web_environment) -p_site_prefix $(web_prefix) -p_site_web_name $(web_site)'
     deploymentMode: 'Incremental'
 
